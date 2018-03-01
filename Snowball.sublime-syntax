@@ -1,0 +1,89 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+file_extensions:
+  - sbl
+scope: source.sbl
+contexts:
+  main:
+    # Strings begin and end with quotes, and use backslashes as an escape
+    # character
+    - match: "'"
+      scope: punctuation.definition.string.begin.sbl
+      push: single_quoted_string
+
+    - match: '/\*'
+      scope: punctuation.definition.comment.begin.sbl
+      push: multiline_comment
+
+    # Comments begin with a '//' and finish at the end of the line
+    - match: '//'
+      scope: punctuation.definition.comment.sbl
+      push: line_comment
+
+    # Keywords are if, else for and while.
+    # Note that blackslashes don't need to be escaped within single quoted
+    # strings in YAML. When using single quoted strings, only single quotes
+    # need to be escaped: this is done by using two single quotes next to each
+    # other.
+
+    - match: '\b(among|for|or|and|not|test|try|do|fail|goto|gopast|repeat|loop|atleast|insert|attach|delete|hop|next|setmark|tomark|atmark|tolimit|atlimit|setlimit|backwards|reverse|substring|set|unset|non\-|non|\?)\b'
+      scope: keyword.operator.word
+
+    - match: '\b(groupings|integers|strings|booleans|routines|externals)\b'
+      scope: keyword.declaration
+
+    - match: '\b(true|false)\b'
+      scope: keyword.constant
+
+
+    - match: '\b(define|as|stringdef|stringescapes)\b'
+      scope: storage.type
+
+    - match: '\b(backwardmode)\b'
+      scope: keyword.declaration.sbl
+   
+    - match: '\b(hex|decimal)\b'
+      scope: storage.modifier.sbl
+
+    - match: '\b(len)\b'
+      scope: support.constant.sbl
+
+    - match: '(\$[a-zA-Z_-]+)'
+      scope: variable.parameter
+
+    - match: '<-|='
+      scope: keyword.operator.assignment
+
+    - match: '\+|-|<|>|\*|!|/'
+      scope: keyword.operator.arithmetic
+
+    - match: '\b(-)?[0-9.]+\b'
+      scope: constant.numeric.sbl
+
+    - match: '([a-zA-Z_0-9~-]+)'
+      scope: entity.name
+
+
+
+  single_quoted_string:
+    - meta_scope: string.quoted.double.sbl
+    - match: "{[^']+}"
+      scope: constant.character.escape.sbl
+    - match: "'"
+      scope: punctuation.definition.string.end.sbl
+      pop: true
+
+
+  line_comment:
+    - meta_scope: comment.line.sbl
+    - match: $
+      pop: true
+
+  multiline_comment:
+    - meta_scope: comment.block.sbl
+    - match: '\\.'
+      scope: constant.character.escape.sbl
+    - match: '\*/'
+      scope: punctuation.definition.comment.end.sbl
+      pop: true
