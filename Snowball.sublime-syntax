@@ -1,6 +1,7 @@
 %YAML 1.2
 ---
 # See http://www.sublimetext.com/docs/3/syntax.html
+name: Snowball
 file_extensions:
   - sbl
 scope: source.sbl
